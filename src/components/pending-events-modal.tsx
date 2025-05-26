@@ -131,7 +131,7 @@ export function PendingEventsModal({ open, onOpenChange }: PendingEventsModalPro
                                                                     <TableCell>{evento.prioridad}</TableCell>
                                                                     <TableCell>{evento.responsable}</TableCell>
                                                                     <TableCell>{evento.duracion_horas}h</TableCell>
-                                                                    <TableCell>{new Date(evento.fecha_inicio).toLocaleString()}</TableCell>
+                                                                    <TableCell>{evento.fecha_inicio.split(',')[0]}</TableCell>
                                                                     <TableCell>
                                                                         <Button
                                                                             variant="ghost"
@@ -190,7 +190,7 @@ export function PendingEventsModal({ open, onOpenChange }: PendingEventsModalPro
                                                                     <TableCell>{evento.prioridad}</TableCell>
                                                                     <TableCell>{evento.responsable}</TableCell>
                                                                     <TableCell>{evento.duracion_horas}h</TableCell>
-                                                                    <TableCell>{new Date(evento.fecha_inicio).toLocaleString()}</TableCell>
+                                                                    <TableCell>{evento.fecha_inicio.split(',')[0]}</TableCell>
                                                                     <TableCell>
                                                                         <Button
                                                                             variant="ghost"
