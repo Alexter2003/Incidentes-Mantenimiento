@@ -92,13 +92,13 @@ export function MonthlyEventsModal({ open, onOpenChange }: MonthlyEventsModalPro
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[800px]">
+            <DialogContent className="sm:max-w-[800px] bg-background dark:bg-background">
                 <DialogHeader>
                     <DialogTitle>Eventos por Mes</DialogTitle>
                 </DialogHeader>
                 <div className="flex items-center gap-4 mb-4">
                     <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] bg-background">
                             <SelectValue placeholder="Seleccionar mes" />
                         </SelectTrigger>
                         <SelectContent>
@@ -110,7 +110,7 @@ export function MonthlyEventsModal({ open, onOpenChange }: MonthlyEventsModalPro
                         </SelectContent>
                     </Select>
                     <Select value={selectedYear} onValueChange={setSelectedYear}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-[180px] bg-background">
                             <SelectValue placeholder="Seleccionar año" />
                         </SelectTrigger>
                         <SelectContent>
@@ -131,59 +131,61 @@ export function MonthlyEventsModal({ open, onOpenChange }: MonthlyEventsModalPro
                     </div>
                 ) : monthlyEvents.length === 0 ? (
                     <div className="flex justify-center items-center p-4">
-                        <p>No hay eventos registrados en este período</p>
+                            <p>No hay eventos registrados en este periodo</p>
                     </div>
                 ) : (
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Equipo</TableHead>
-                                <TableHead>Ubicación</TableHead>
-                                <TableHead>Eventos</TableHead>
-                                <TableHead>Estado</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {monthlyEvents.map((item) => (
-                                <TableRow
-                                    key={item.equipo.id}
-                                    className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                                    onClick={() => handleRowClick(item.equipo.id)}
-                                >
-                                    <TableCell>
-                                        <div>
-                                            <p className="font-medium">{item.equipo["numero-serie"]}</p>
-                                            <p className="text-sm text-muted-foreground">{item.equipo.modelo}</p>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{item.equipo.ubicacion}</TableCell>
-                                    <TableCell>
-                                        <ul className="list-disc list-inside">
-                                            {item.eventos.map((evento) => (
-                                                <li key={evento.id} className="text-sm">
-                                                    {evento.tipo}: {evento.descripcion} ({evento.estado})
-                                                    <br />
-                                                    <span className="text-xs text-muted-foreground">
-                                                        {evento.fecha_inicio}
+                            <div className="rounded-md border">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Equipo</TableHead>
+                                            <TableHead>Ubicación</TableHead>
+                                            <TableHead>Eventos</TableHead>
+                                            <TableHead>Estado</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {monthlyEvents.map((item) => (
+                                            <TableRow
+                                                key={item.equipo.id}
+                                                className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                                                onClick={() => handleRowClick(item.equipo.id)}
+                                            >
+                                                <TableCell>
+                                                    <div>
+                                                        <p className="font-medium">{item.equipo["numero-serie"]}</p>
+                                                        <p className="text-sm text-muted-foreground">{item.equipo.modelo}</p>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>{item.equipo.ubicacion}</TableCell>
+                                                <TableCell>
+                                                    <ul className="list-disc list-inside">
+                                                        {item.eventos.map((evento) => (
+                                                            <li key={evento.id} className="text-sm">
+                                                                {evento.tipo}: {evento.descripcion} ({evento.estado})
+                                                                <br />
+                                                                <span className="text-xs text-muted-foreground">
+                                                                    {evento.fecha_inicio}
+                                                                </span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${item.equipo.estado === 'activo'
+                                                        ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+                                                        : item.equipo.estado === 'mantenimiento'
+                                                            ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
+                                                            : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                                                        }`}>
+                                                        {item.equipo.estado.charAt(0).toUpperCase() + item.equipo.estado.slice(1)}
                                                     </span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </TableCell>
-                                    <TableCell>
-                                        <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${item.equipo.estado === 'activo'
-                                            ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
-                                            : item.equipo.estado === 'mantenimiento'
-                                                ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
-                                                : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
-                                            }`}>
-                                            {item.equipo.estado.charAt(0).toUpperCase() + item.equipo.estado.slice(1)}
-                                        </span>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
                 )}
             </DialogContent>
         </Dialog>

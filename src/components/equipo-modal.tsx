@@ -102,7 +102,7 @@ export function EquipoModal({ open, onOpenChange, equipo }: EquipoModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-background dark:bg-background">
         <DialogHeader>
           <DialogTitle>
             {equipo ? "Editar Equipo" : "Registrar Nuevo Equipo"}
@@ -116,6 +116,7 @@ export function EquipoModal({ open, onOpenChange, equipo }: EquipoModalProps) {
               value={formData["numero-serie"]}
               onChange={(e) => setFormData({ ...formData, "numero-serie": e.target.value })}
               required
+              className="bg-background"
             />
           </div>
           <div className="grid gap-2">
@@ -125,6 +126,7 @@ export function EquipoModal({ open, onOpenChange, equipo }: EquipoModalProps) {
               value={formData.modelo}
               onChange={(e) => setFormData({ ...formData, modelo: e.target.value })}
               required
+              className="bg-background"
             />
           </div>
           <div className="grid gap-2">
@@ -134,6 +136,7 @@ export function EquipoModal({ open, onOpenChange, equipo }: EquipoModalProps) {
               value={formData.ubicacion}
               onChange={(e) => setFormData({ ...formData, ubicacion: e.target.value })}
               required
+              className="bg-background"
             />
           </div>
           <div className="grid gap-2">
@@ -142,7 +145,7 @@ export function EquipoModal({ open, onOpenChange, equipo }: EquipoModalProps) {
               value={formData.estado}
               onValueChange={(value) => setFormData({ ...formData, estado: value })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-background">
                 <SelectValue placeholder="Selecciona un estado" />
               </SelectTrigger>
               <SelectContent>
@@ -158,6 +161,7 @@ export function EquipoModal({ open, onOpenChange, equipo }: EquipoModalProps) {
               id="observaciones"
               value={formData.observaciones}
               onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
+              className="bg-background"
             />
           </div>
           <div className="flex justify-end gap-3">

@@ -98,7 +98,7 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-background dark:bg-background">
         <DialogHeader>
           <DialogTitle>
             {mode === 'create' ? 'Registrar Nuevo Evento' : 'Editar Evento'}
@@ -110,9 +110,9 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
             <Select
               value={formData.tipo}
               onValueChange={(value) => setFormData({ ...formData, tipo: value })}
-              disabled={mode === 'edit'} // No permitir cambiar el tipo en modo edición
+              disabled={mode === 'edit'}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-background">
                 <SelectValue placeholder="Selecciona un tipo" />
               </SelectTrigger>
               <SelectContent>
@@ -129,7 +129,8 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
               value={formData.descripcion}
               onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
               required
-              disabled={mode === 'edit'} // No permitir cambiar la descripción en modo edición
+              disabled={mode === 'edit'}
+              className="bg-background"
             />
           </div>
 
@@ -139,12 +140,11 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
               value={formData.estado}
               onValueChange={(value) => setFormData({ ...formData, estado: value })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-background">
                 <SelectValue placeholder="Selecciona un estado" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="abierto">Abierto</SelectItem>
-                <SelectItem value="en-proceso">En Proceso</SelectItem>
                 <SelectItem value="cerrado">Cerrado</SelectItem>
               </SelectContent>
             </Select>
@@ -155,9 +155,8 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
             <Select
               value={formData.prioridad}
               onValueChange={(value) => setFormData({ ...formData, prioridad: value })}
-              disabled={mode === 'edit'} // No permitir cambiar la prioridad en modo edición
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-background">
                 <SelectValue placeholder="Selecciona una prioridad" />
               </SelectTrigger>
               <SelectContent>
@@ -175,6 +174,7 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
               value={formData.responsable}
               onChange={(e) => setFormData({ ...formData, responsable: e.target.value })}
               required
+              className="bg-background"
             />
           </div>
 
@@ -187,6 +187,7 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
               value={formData.duracion_horas}
               onChange={(e) => setFormData({ ...formData, duracion_horas: parseInt(e.target.value) || 0 })}
               required
+              className="bg-background"
             />
           </div>
 
@@ -196,6 +197,7 @@ export function EventoModal({ open, onOpenChange, equipoId, evento, mode = 'crea
               id="notas"
               value={formData.notas}
               onChange={(e) => setFormData({ ...formData, notas: e.target.value })}
+              className="bg-background"
             />
           </div>
 

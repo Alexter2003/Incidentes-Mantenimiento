@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { type Bitacora, type Equipo } from "@/lib/firebase/services";
 import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 
 interface PendingEventsModalProps {
     open: boolean;
@@ -63,66 +64,17 @@ export function PendingEventsModal({ open, onOpenChange }: PendingEventsModalPro
     };
 
     const filterEventsByType = (type: 'Incidente' | 'Mantenimiento') => {
-        return pendingEvents.filter(item =>
-            item.eventos.some(evento => evento.tipo === type)
-        ).map(item => ({
-            ...item,
-            eventos: item.eventos.filter(evento => evento.tipo === type)
-        }));
+        return pendingEvents
+            .map(item => ({
+                equipo: item.equipo,
+                eventos: item.eventos.filter(evento => evento.tipo === type)
+            }))
+            .filter(item => item.eventos.length > 0);
     };
-
-    const EventsTable = ({ events }: { events: PendingEvent[] }) => (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Equipo</TableHead>
-                    <TableHead>Ubicación</TableHead>
-                    <TableHead>Eventos Pendientes</TableHead>
-                    <TableHead>Estado</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {events.map((item) => (
-                    <TableRow
-                        key={item.equipo.id}
-                        className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                        onClick={() => handleRowClick(item.equipo.id)}
-                    >
-                        <TableCell>
-                            <div>
-                                <p className="font-medium">{item.equipo["numero-serie"]}</p>
-                                <p className="text-sm text-muted-foreground">{item.equipo.modelo}</p>
-                            </div>
-                        </TableCell>
-                        <TableCell>{item.equipo.ubicacion}</TableCell>
-                        <TableCell>
-                            <ul className="list-disc list-inside">
-                                {item.eventos.map((evento) => (
-                                    <li key={evento.id} className="text-sm">
-                                        {evento.descripcion} ({evento.estado})
-                                    </li>
-                                ))}
-                            </ul>
-                        </TableCell>
-                        <TableCell>
-                            <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${item.equipo.estado === 'activo'
-                                ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
-                                : item.equipo.estado === 'mantenimiento'
-                                    ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
-                                    : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
-                                }`}>
-                                {item.equipo.estado.charAt(0).toUpperCase() + item.equipo.estado.slice(1)}
-                            </span>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    );
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[800px]">
+            <DialogContent className="sm:max-w-[800px] bg-background dark:bg-background">
                 <DialogHeader>
                     <DialogTitle>Eventos Pendientes</DialogTitle>
                 </DialogHeader>
@@ -146,7 +98,57 @@ export function PendingEventsModal({ open, onOpenChange }: PendingEventsModalPro
                                     <p>No hay incidentes pendientes</p>
                                 </div>
                             ) : (
-                                <EventsTable events={filterEventsByType('Incidente')} />
+                                            <div className="rounded-md border">
+                                                <Table>
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            <TableHead>Equipo</TableHead>
+                                                            <TableHead>Descripción</TableHead>
+                                                            <TableHead>Estado</TableHead>
+                                                            <TableHead>Prioridad</TableHead>
+                                                            <TableHead>Responsable</TableHead>
+                                                            <TableHead>Duración</TableHead>
+                                                            <TableHead>Fecha Inicio</TableHead>
+                                                            <TableHead>Acciones</TableHead>
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        {filterEventsByType('Incidente').map((item) => (
+                                                            item.eventos.map((evento) => (
+                                                                <TableRow
+                                                                    key={evento.id}
+                                                                    className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                                                                    onClick={() => handleRowClick(item.equipo.id)}
+                                                                >
+                                                                    <TableCell>
+                                                                        <div>
+                                                                            <p className="font-medium">{item.equipo["numero-serie"]}</p>
+                                                                            <p className="text-sm text-muted-foreground">{item.equipo.ubicacion}</p>
+                                                                        </div>
+                                                                    </TableCell>
+                                                                    <TableCell>{evento.descripcion}</TableCell>
+                                                                    <TableCell>{evento.estado}</TableCell>
+                                                                    <TableCell>{evento.prioridad}</TableCell>
+                                                                    <TableCell>{evento.responsable}</TableCell>
+                                                                    <TableCell>{evento.duracion_horas}h</TableCell>
+                                                                    <TableCell>{new Date(evento.fecha_inicio).toLocaleString()}</TableCell>
+                                                                    <TableCell>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handleRowClick(item.equipo.id);
+                                                                            }}
+                                                                        >
+                                                                            Ver Equipo
+                                                                        </Button>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            ))
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </div>
                             )}
                         </TabsContent>
                         <TabsContent value="mantenimientos">
@@ -155,7 +157,57 @@ export function PendingEventsModal({ open, onOpenChange }: PendingEventsModalPro
                                     <p>No hay mantenimientos pendientes</p>
                                 </div>
                             ) : (
-                                <EventsTable events={filterEventsByType('Mantenimiento')} />
+                                            <div className="rounded-md border">
+                                                <Table>
+                                                    <TableHeader>
+                                                        <TableRow>
+                                                            <TableHead>Equipo</TableHead>
+                                                            <TableHead>Descripción</TableHead>
+                                                            <TableHead>Estado</TableHead>
+                                                            <TableHead>Prioridad</TableHead>
+                                                            <TableHead>Responsable</TableHead>
+                                                            <TableHead>Duración</TableHead>
+                                                            <TableHead>Fecha Inicio</TableHead>
+                                                            <TableHead>Acciones</TableHead>
+                                                        </TableRow>
+                                                    </TableHeader>
+                                                    <TableBody>
+                                                        {filterEventsByType('Mantenimiento').map((item) => (
+                                                            item.eventos.map((evento) => (
+                                                                <TableRow
+                                                                    key={evento.id}
+                                                                    className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
+                                                                    onClick={() => handleRowClick(item.equipo.id)}
+                                                                >
+                                                                    <TableCell>
+                                                                        <div>
+                                                                            <p className="font-medium">{item.equipo["numero-serie"]}</p>
+                                                                            <p className="text-sm text-muted-foreground">{item.equipo.ubicacion}</p>
+                                                                        </div>
+                                                                    </TableCell>
+                                                                    <TableCell>{evento.descripcion}</TableCell>
+                                                                    <TableCell>{evento.estado}</TableCell>
+                                                                    <TableCell>{evento.prioridad}</TableCell>
+                                                                    <TableCell>{evento.responsable}</TableCell>
+                                                                    <TableCell>{evento.duracion_horas}h</TableCell>
+                                                                    <TableCell>{new Date(evento.fecha_inicio).toLocaleString()}</TableCell>
+                                                                    <TableCell>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handleRowClick(item.equipo.id);
+                                                                            }}
+                                                                        >
+                                                                            Ver Equipo
+                                                                        </Button>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            ))
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </div>
                             )}
                         </TabsContent>
                     </Tabs>
