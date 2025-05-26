@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Incidentes Mantenimiento
 
-## Getting Started
+Este es un proyecto de Next.js para la gestión de incidentes de mantenimiento. La aplicacion es parte de un proyecto de universidad, del curso de Bases de datos III
 
-First, run the development server:
+## Tecnologías Principales
+
+- [Next.js 14](https://nextjs.org/)
+- [React 18](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Firebase](https://firebase.google.com/)
+- [Radix UI](https://www.radix-ui.com/) para componentes de interfaz
+
+## Requisitos Previos
+
+Antes de comenzar, esto es lo que necesitas tener instalado:
+
+- Node.js (versión 18 o superior)
+- npm (viene incluido con Node.js)
+
+## Instalación
+
+1. Clona el repositorio:
+```bash
+git clone [URL-del-repositorio]
+cd incidentes-mantenimiento
+```
+
+2. Instala las dependencias:
+```bash
+npm install
+```
+
+3. Configura las variables de entorno:
+   - Crea un archivo `.env.local` en la raíz del proyecto
+   - Añade las variables necesarias para Firebase:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=tu-api-key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=tu-auth-domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=tu-project-id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu-storage-bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu-sender-id
+NEXT_PUBLIC_FIREBASE_APP_ID=tu-app-id
+```
+
+## Uso
+
+### Desarrollo
+
+Para ejecutar el proyecto en modo desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Esto iniciará el servidor de desarrollo en `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Construcción para Producción
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Para construir el proyecto para producción:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Iniciar en Producción
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Para iniciar la aplicación en modo producción:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run start
+```
 
-## Deploy on Vercel
+## Características Principales
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Gestión de incidentes y mantenimientos de equipos
+- Interfaz de usuario moderna y responsiva
+- Integración con Firebase para almacenamiento de datos
+- Componentes UI interactivos con Radix UI
+- Estilizado con Tailwind CSS
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Estructura del Proyecto
+
+- `/src` - Código fuente principal
+- `/public` - Archivos estáticos
+- `/components` - Componentes React reutilizables
+- `/pages` - Rutas y páginas de la aplicación
+- `/styles` - Estilos globales y configuración de Tailwind
